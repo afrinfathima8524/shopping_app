@@ -1,0 +1,43 @@
+name: ui_trial
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  http: ^1.2.1
+  mockito: ^5.4.4
+  provider: ^6.1.2
+  get_it: ^7.6.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  test: ^1.24.9
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/ 
+
+fonts:
+  - family: roboto
+    fonts:
+      - asset: assets/fonts/Roboto-Black.ttf
+        weight: 900
+      - asset: assets/fonts/Roboto-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Roboto-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Roboto-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Roboto-Regular.ttf
+        weight: 400
