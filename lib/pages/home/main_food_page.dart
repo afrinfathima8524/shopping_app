@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_trial/home/food_page_body.dart';
+import 'food_page_body.dart';
+import 'package:ui_trial/utils/dimensions.dart';
 import 'package:ui_trial/widgets/big_text.dart';
 import 'package:ui_trial/widgets/small_text.dart';
 
@@ -18,8 +20,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
         children: [
           Container(
           child: Container(
-            margin: EdgeInsets.only(top:45,bottom: 15),
-            padding: EdgeInsets.only(left:20,right: 20,),
+            margin: EdgeInsets.only(top:Dimensions.height45,bottom: Dimensions.height15),
+            padding: EdgeInsets.only(left:Dimensions.widthPadding,right: Dimensions.widthPadding,),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -36,17 +38,22 @@ class _MainFoodPageState extends State<MainFoodPage> {
                 ),
                 Center(
                   child: Container(
-                    width: 45,
-                    height: 45,
-                    child: Icon(Icons.search,color: Colors.white),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: Color.fromARGB(255, 54, 66, 111)),
+                    width: Dimensions.width45,
+                    height: Dimensions.height45,
+                    child: Icon(Icons.search,color: Colors.white,size:Dimensions.iconSize24,),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius15),color: Color.fromARGB(255, 54, 66, 111)),
                   ),
                 ),
               ],
             ),
           ),
               ),
-          FoodPageBody()
+          Expanded(
+            child: SingleChildScrollView(
+              child: FoodPageBody(),
+            ),
+          )
         ],
       ),
     );
