@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ui_trial/utils/dimensions.dart';
-import 'package:ui_trial/widgets/small_text.dart';
+import 'package:food_delivery/utils/dimensions.dart';
+import 'package:food_delivery/widgets/small_text.dart';
 
 class ExpandableText extends StatefulWidget {
   final String text;

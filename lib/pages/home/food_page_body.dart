@@ -2,11 +2,17 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_trial/utils/dimensions.dart';
-import 'package:ui_trial/widgets/app_column.dart';
-import 'package:ui_trial/widgets/big_text.dart';
-import 'package:ui_trial/widgets/icons_and_text.dart';
-import 'package:ui_trial/widgets/small_text.dart';
+import 'package:get/get.dart';
+import 'package:food_delivery/controllers/popular_recipies_controller.dart';
+import 'package:food_delivery/controllers/recommended.dart';
+import 'package:food_delivery/models/popular_recipies_module.dart';
+import 'package:food_delivery/routes/route_helper.dart';
+import 'package:food_delivery/utils/app_constants.dart';
+import 'package:food_delivery/utils/dimensions.dart';
+import 'package:food_delivery/widgets/app_column.dart';
+import 'package:food_delivery/widgets/big_text.dart';
+import 'package:food_delivery/widgets/icons_and_text.dart';
+import 'package:food_delivery/widgets/small_text.dart';
 
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({super.key});
@@ -42,18 +48,26 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     return Column(
       children: [
         // slider section
-        Container(
+        GetBuilder<PopularRecipiesController>(builder: (controller) {
+          return Container(
           height: Dimensions.PageView,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              itemBuilder: (context, position) {
-                return _buildPageItem(position);
-              }),
-        ),
+          child: GestureDetector(
+            onTap: () {
+              Get.toNamed(RouteHelper.getPopularRecipie());
+            },
+            child: PageView.builder(
+                controller: pageController,
+                itemCount: controller.popularRecipieList.length,
+                itemBuilder: (context, position) {
+                  return _buildPageItem(position,controller.popularRecipieList[position]);
+                }),
+          ),
+        );
+        },),
         // dot bottom
-        DotsIndicator(
-          dotsCount: 5,
+        GetBuilder<PopularRecipiesController>(builder: (controller) {
+          return DotsIndicator(
+          dotsCount: controller.popularRecipieList.isEmpty?1:controller.popularRecipieList.length,
           position: _currentPageValue.round(),
           decorator: DotsDecorator(
             activeColor: Color.fromARGB(255, 45, 56, 95),
@@ -62,7 +76,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),
-        ),
+        );
+        },),
         // popular text
         SizedBox(height: Dimensions.height30,),
         Container(
@@ -70,7 +85,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            BigText(text: "Popular"),
+            BigText(text: "Recommended"),
             SizedBox(width: Dimensions.width10,),
             Container(
               margin: EdgeInsets.only(bottom: 3),
@@ -85,77 +100,84 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         ),
         ),
        // list of recipies
-       ListView.builder(
+       GetBuilder<RecommendedRecipiesController>(builder: (recommendedcontroller) {
+         return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-         itemCount: 10,
+         itemCount: recommendedcontroller.recommendedRecipieList.length,
          itemBuilder: (BuildContext context, index) {
-           return Container(
-             margin: EdgeInsets.only(left: Dimensions.widthPadding,right: Dimensions.widthPadding,bottom: Dimensions.height10),
-             child: Row(
-              children: [
-                // images
-                Container(
-                  width: Dimensions.listViewImgSize,
-                  height: Dimensions.listViewImgSize,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                    color:Colors.white38,
-                    image: DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/images/Oreo-Cheesecake-thumb.webp"),),
-                  ),
-                ),
-                // Text
-                Expanded(
-                  child: Container(
-                    height: Dimensions.listViewTextCountSize,
+           return GestureDetector(
+            onTap: () {
+              Get.toNamed(RouteHelper.recommendedRecipie);
+            },
+             child: Container(
+               margin: EdgeInsets.only(left: Dimensions.widthPadding,right: Dimensions.widthPadding,bottom: Dimensions.height10),
+               child: Row(
+                children: [
+                  // images
+                  Container(
+                    width: Dimensions.listViewImgSize,
+                    height: Dimensions.listViewImgSize,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(Dimensions.radius20),
-                      bottomRight: Radius.circular(Dimensions.radius20),
-                      ),
-                      color: Colors.white,
-                      ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: Dimensions.width10,right: Dimensions.width10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          BigText(text: "Nutrisious Brownie in Home"),
-                          SizedBox(height: Dimensions.height10,),
-                          SmallText(text: "with ingridients in the home"),
-                          SizedBox(height: Dimensions.height10,),
-                           Row(
-                      children: [
-                        Expanded(
-                          child: IconAndText(
-                              icon: Icons.timelapse_sharp,
-                              text: "32min",
-                              iconColor: Color.fromARGB(255, 45, 56, 95),),
-                        ),
-                        Expanded(
-                          child: IconAndText(
-                              icon: Icons.speed,
-                              text: "easy",
-                              iconColor: Color.fromARGB(255, 45, 56, 95)),
-                        ),
-                      ],
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color:Colors.white38,
+                      image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(AppConstants.Base_Url+AppConstants.Upload_Uri+recommendedcontroller.recommendedRecipieList[index].img!),),
                     ),
+                  ),
+                  // Text
+                  Expanded(
+                    child: Container(
+                      height: Dimensions.listViewTextCountSize,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(Dimensions.radius20),
+                        bottomRight: Radius.circular(Dimensions.radius20),
+                        ),
+                        color: Colors.white,
+                        ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: Dimensions.width10,right: Dimensions.width10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BigText(text: recommendedcontroller.recommendedRecipieList[index].name!),
+                            SizedBox(height: Dimensions.height10,),
+                            SmallText(text: recommendedcontroller.recommendedRecipieList[index].name!),
+                            SizedBox(height: Dimensions.height10,),
+                             Row(
+                        children: [
+                          Expanded(
+                            child: IconAndText(
+                                icon: Icons.timelapse_sharp,
+                                text: "32min",
+                                iconColor: Color.fromARGB(255, 45, 56, 95),),
+                          ),
+                          Expanded(
+                            child: IconAndText(
+                                icon: Icons.speed,
+                                text: "easy",
+                                iconColor: Color.fromARGB(255, 45, 56, 95)),
+                          ),
                         ],
                       ),
-                      ),
+                          ],
+                        ),
+                        ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+               ),
              ),
            );
          },
-       ),
-      ],
+       );
+       },)
+       ],
     );
   }
 
-  Widget _buildPageItem(int index) {
+  Widget _buildPageItem(int index, ProductModel popularRecipieList) {
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
@@ -192,8 +214,10 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 color: index.isEven ? Color(0xff69c5df) : Color(0xff9294cc),
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(
-                        "assets/images/Cadbury-Chocolate-Blueberry-Cake-thumb.webp"))),
+                    image: NetworkImage(
+                        AppConstants.Base_Url+AppConstants.Upload_Uri+popularRecipieList.img!)
+                        ),
+                        ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -227,7 +251,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   left: Dimensions.width15,
                   right: Dimensions.width15,
                 ),
-                child: AppColumn(text: "blueberry cake",),),
+                child: AppColumn(text: popularRecipieList.name!,),),
             ),
           ),
         ],

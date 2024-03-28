@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'food_page_body.dart';
-import 'package:ui_trial/utils/dimensions.dart';
-import 'package:ui_trial/widgets/big_text.dart';
-import 'package:ui_trial/widgets/small_text.dart';
+import 'package:food_delivery/utils/dimensions.dart';
+import 'package:food_delivery/widgets/big_text.dart';
+import 'package:food_delivery/widgets/small_text.dart';
 
 class MainFoodPage extends StatefulWidget {
   const MainFoodPage({super.key});

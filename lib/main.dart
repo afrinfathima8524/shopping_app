@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:ui_trial/pages/home/main_food_page.dart';
-import 'package:ui_trial/pages/home/recipies/popular_recipies.dart';
-import 'package:ui_trial/pages/home/recipies/recommended_recipies.dart';
-import 'package:ui_trial/helper/dependencies.dart' as dep;
+import 'package:food_delivery/controllers/popular_recipies_controller.dart';
+import 'package:food_delivery/controllers/recommended.dart';
+import 'package:food_delivery/pages/home/main_food_page.dart';
+import 'package:food_delivery/helper/dependencies.dart' as dep;
+import 'package:food_delivery/routes/route_helper.dart';
 
-import 'pages/home/food_page_body.dart';
-// import '../pages/home/main_food_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +20,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<PopularRecipiesController>().getPopularRecipiesList();
+    Get.find<RecommendedRecipiesController>().getRecommendedRecipiesList();
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
@@ -27,10 +29,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-      ),
+
       home: MainFoodPage(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
     );
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ui_trial/utils/dimensions.dart';
-import 'package:ui_trial/widgets/app_icon.dart';
-import 'package:ui_trial/widgets/big_text.dart';
-import 'package:ui_trial/widgets/expandable_text.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:food_delivery/routes/route_helper.dart';
+import 'package:food_delivery/utils/dimensions.dart';
+import 'package:food_delivery/widgets/app_icon.dart';
+import 'package:food_delivery/widgets/big_text.dart';
+import 'package:food_delivery/widgets/expandable_text.dart';
 
-class RedommendedRecipies extends StatelessWidget {
-  const RedommendedRecipies({super.key});
+class RecommendedRecipies extends StatelessWidget {
+  const RecommendedRecipies({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +17,16 @@ class RedommendedRecipies extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 70,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              AppIcon(icon: Icons.close),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteHelper.getInitial());
+                },
+                child: AppIcon(icon: Icons.close)),
               AppIcon(icon: Icons.shopping_cart_outlined),
             ],),
             bottom: PreferredSize(
