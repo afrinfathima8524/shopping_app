@@ -15,7 +15,7 @@ Future<void> getRecommendedRecipiesList()async{
   _recommendedRecipieList.addAll(Product.fromJson(response.body).products);
   update();
  }else{
-
+    throw("not sble to load the data");
  }
 }
 }
