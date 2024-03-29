@@ -10,18 +10,20 @@ class RouteHelper{
   static const String recommendedRecipie="/recommended-recipe";
 
   static String getInitial()=>'$initial';
-  static String getPopularRecipie()=>'$PopularRecipie';
-  static String getRecommendedRecipie()=>'$recommendedRecipie';
+  static String getPopularRecipie(int pageId)=>'$PopularRecipie?pageId=$pageId';
+  static String getRecommendedRecipie(int pageId)=>'$recommendedRecipie?pageId=$pageId';
 
   static List<GetPage> routes=[
     GetPage(name: initial, page: ()=>MainFoodPage()),
     GetPage(name: PopularRecipie, page: (){
-      return PopularRecipies();
+      var pageId=Get.parameters['pageId'];
+      return PopularRecipies(pageId:int.parse(pageId!));
     },
     transition: Transition.fadeIn
     ),
     GetPage(name: recommendedRecipie, page: (){
-      return RecommendedRecipies();
+      var pageId=Get.parameters['pageId'];
+      return RecommendedRecipies(pageId:int.parse(pageId!));
     },
     transition: Transition.fadeIn
     ),

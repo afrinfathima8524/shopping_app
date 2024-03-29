@@ -51,17 +51,12 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         GetBuilder<PopularRecipiesController>(builder: (controller) {
           return Container(
           height: Dimensions.PageView,
-          child: GestureDetector(
-            onTap: () {
-              Get.toNamed(RouteHelper.getPopularRecipie());
-            },
             child: PageView.builder(
                 controller: pageController,
                 itemCount: controller.popularRecipieList.length,
                 itemBuilder: (context, position) {
                   return _buildPageItem(position,controller.popularRecipieList[position]);
                 }),
-          ),
         );
         },),
         // dot bottom
@@ -80,25 +75,25 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         },),
         // popular text
         SizedBox(height: Dimensions.height30,),
-        Container(
-        margin: EdgeInsets.only(left: Dimensions.width30),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            BigText(text: "Recommended"),
-            SizedBox(width: Dimensions.width10,),
-            Container(
-              margin: EdgeInsets.only(bottom: 3),
-              child: BigText(text: ".",color: Colors.black,),
-            ),
-            SizedBox(width: Dimensions.width10,),
-            Container(
-              margin: EdgeInsets.only(bottom: 2),
-              child: SmallText(text: "Recipie Pairing"),
-            )
-          ],
-        ),
-        ),
+         Container(
+          margin: EdgeInsets.only(left: Dimensions.width30),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              BigText(text: "Recommended"),
+              SizedBox(width: Dimensions.width10,),
+              Container(
+                margin: EdgeInsets.only(bottom: 3),
+                child: BigText(text: ".",color: Colors.black,),
+              ),
+              SizedBox(width: Dimensions.width10,),
+              Container(
+                margin: EdgeInsets.only(bottom: 2),
+                child: SmallText(text: "Recipie Pairing"),
+              )
+            ],
+          ),
+          ),
        // list of recipies
        GetBuilder<RecommendedRecipiesController>(builder: (recommendedcontroller) {
          return ListView.builder(
@@ -108,7 +103,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
          itemBuilder: (BuildContext context, index) {
            return GestureDetector(
             onTap: () {
-              Get.toNamed(RouteHelper.recommendedRecipie);
+              Get.toNamed(RouteHelper.getRecommendedRecipie(index));
             },
              child: Container(
                margin: EdgeInsets.only(left: Dimensions.widthPadding,right: Dimensions.widthPadding,bottom: Dimensions.height10),
@@ -206,18 +201,23 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.PageViewContainer,
-            margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                color: index.isEven ? Color(0xff69c5df) : Color(0xff9294cc),
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        AppConstants.Base_Url+AppConstants.Upload_Uri+popularRecipieList.img!)
-                        ),
-                        ),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(RouteHelper.getPopularRecipie(index));
+            },
+            child: Container(
+              height: Dimensions.PageViewContainer,
+              margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30),
+                  color: index.isEven ? Color(0xff69c5df) : Color(0xff9294cc),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          AppConstants.Base_Url+AppConstants.Upload_Uri+popularRecipieList.img!)
+                          ),
+                          ),
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:food_delivery/controllers/recommended.dart';
+import 'package:food_delivery/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/dimensions.dart';
@@ -8,10 +10,12 @@ import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/expandable_text.dart';
 
 class RecommendedRecipies extends StatelessWidget {
-  const RecommendedRecipies({super.key});
+  int pageId;
+ RecommendedRecipies({Key?key,required this.pageId}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var recipies=Get.find<RecommendedRecipiesController>().recommendedRecipieList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -24,6 +28,7 @@ class RecommendedRecipies extends StatelessWidget {
               children: [
               GestureDetector(
                 onTap: () {
+
                   Get.toNamed(RouteHelper.getInitial());
                 },
                 child: AppIcon(icon: Icons.close)),
@@ -32,7 +37,7 @@ class RecommendedRecipies extends StatelessWidget {
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(20),
               child: Container(
-                child: Center(child: BigText(text: "blueberry cake",size: Dimensions.font26,),),
+                child: Center(child: BigText(text: recipies.name!,size: Dimensions.font26,),),
                 width: double.maxFinite,
                 padding: EdgeInsets.only(top: 5,bottom: 10),
                 decoration: BoxDecoration(
@@ -48,7 +53,7 @@ class RecommendedRecipies extends StatelessWidget {
             backgroundColor: const  Color.fromARGB(255, 54, 66, 111),
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset("assets/images/Cadbury-Chocolate-Blueberry-Cake-thumb.webp",
+              background: Image.network(AppConstants.Base_Url+AppConstants.Upload_Uri+recipies.img!,
               width: double.maxFinite,
               fit: BoxFit.cover,),
             ),
@@ -58,7 +63,7 @@ class RecommendedRecipies extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.only(left: Dimensions.widthPadding,right: Dimensions.widthPadding,),
-                  child:  ExpandableText(text: "Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.  eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.  eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.  eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center. Keep an eye on how long you microwave the cake because overcooking can result in a dry texture, and you won't get that gooey center.")),
+                  child:  ExpandableText(text: recipies.description!)),
               ],
             ),
           ),
@@ -75,7 +80,7 @@ class RecommendedRecipies extends StatelessWidget {
                 AppIcon(
                   iconSize: Dimensions.iconSize24,
                   icon: Icons.remove,backgorundColor: const  Color.fromARGB(255, 54, 66, 111),iconColor: Colors.white,),
-                  BigText(text: " \$12.88 "+" X "+" 0 ",size: Dimensions.font26,),
+                  BigText(text: " \$ ${recipies.price!} "+" X "+" 0 ",size: Dimensions.font26,),
                 AppIcon(
                   iconSize: Dimensions.iconSize24,
                   icon: Icons.add,backgorundColor: const  Color.fromARGB(255, 54, 66, 111),iconColor: Colors.white,),
